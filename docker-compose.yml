@@ -1,0 +1,27 @@
+version: "3"
+services:
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+
+  otel-collector:
+    image: otel/opentelemetry-collector
+    command: [ "--config=/conf/otel-collector-config.yaml" ]
+    volumes:
+      - ./otel-collector-config.yaml:/conf/otel-collector-config.yaml
+
+  spring-app:
+    image: fabricio211/observability:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
