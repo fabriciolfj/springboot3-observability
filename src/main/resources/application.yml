@@ -1,23 +1,6 @@
 server:
   port: 8080
 
-
-opentelemetry:
-  traces:
-    sampler:
-      probability: 1.0
-  exporters:
-    otlp:
-      endpoint: "http://localhost:4317"
-  sdk:
-    resource:
-      attributes:
-        - key: "service.name"
-          value: "my-application"
-    metrics:
-      export-interval: 5000
-
-
 management:
   server:
     port: 8080
